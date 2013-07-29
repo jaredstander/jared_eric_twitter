@@ -16,4 +16,16 @@ get '/:username/timeline' do
   erb :user_timeline
 end
 
-get '/jt'
+get '/:username' do
+  
+  @user = Twitteruser.find_by_username(params[:username])
+  Twitteruser.create(username: params[:username]) if !@user
+  
+  if @user.tweets.empty?
+    @user_tweets= @user.fetch_tweets! 
+  end
+
+  @user_tweets = @user.tweets.limit(10)
+
+  erb :user_cached_timeline
+end
