@@ -1,7 +1,22 @@
 $(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+  $('form').submit(function(e){
+    e.preventDefault();
+    $('input').attr('disabled',true);
+    $('.messages').text("Sending your tweet, yo!");
+
+    $.ajax({
+      url: '/tweets',
+      data: {tweet_text: $('#tweet_field').val()},
+      type: 'POST',
+      success: function() {
+        $('.messages').text("Tweet successful, yo!");
+        // $('input').attr('disabled',false);
+      },
+      error: function() {
+        $('.messages').text("Error, yo");
+        // $('input').attr('disabled',false);
+      }
+    });
+  });
 });

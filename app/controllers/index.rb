@@ -29,3 +29,12 @@ get '/:username' do
 
   erb :user_cached_timeline
 end
+
+get '/tweets/new' do
+  erb :new_tweet
+end
+
+post '/tweets' do
+  Twitter.update(params[:tweet_text])
+  erb :tweeted
+end
